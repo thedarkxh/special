@@ -1,35 +1,36 @@
-name: Sikar News Bot
+name: Sikar News Automation
 
 on:
   schedule:
-    - cron: '0 */2 * * *' # Runs every 2 hours
-  workflow_dispatch:
+    - cron: '0 */2 * * *' # Every 2 hours
+  workflow_dispatch:      # Manual run button
 
 jobs:
-  build:
+  run-bot:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.10'
 
-      - name: Install Dependencies
+      - name: Install Libraries
         run: pip install aiohttp beautifulsoup4 python-telegram-bot
 
-      - name: Run Script
+      - name: Execute Scraper
         env:
           TG_TOKEN: ${{ secrets.TG_TOKEN }}
           CH_ID: ${{ secrets.CH_ID }}
         run: python main.py
 
-      - name: Commit History
+      - name: Sync History Back to GitHub
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "bot@github.com"
+          git config --local user.name "SikarBot-Automator"
           git add posted_sikar_news.txt
-          git commit -m "Update history [skip ci]" || exit 0
+          # Commit only if changes exist to avoid workflow errors
+          git commit -m "Auto-update history log [skip ci]" || exit 0
           git push
