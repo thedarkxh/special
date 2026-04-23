@@ -9,7 +9,7 @@ load_dotenv()
 
 class NewstogramReels:
     def __init__(self):
-        self.news_api_key = os.getenv("NEWS_API_KEY")
+        self.news_api_key = os.getenv("94c311a0bd5a43e3a136ef1e7f863213")
         self.width = 1080
         self.height = 1920  # Vertical 9:16 ratio for Reels
         self.bg_color = (20, 20, 20)  # Dark theme
